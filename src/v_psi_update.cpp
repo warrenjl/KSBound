@@ -13,7 +13,7 @@ Rcpp::List v_psi_update(int m_max,
                         double alpha_old){
  
 int n = y.size();
-IntegerVector full_set_temp = seq(0, (n-1));
+IntegerVector full_set_temp = seq(0, (n - 1));
 arma::vec full_set = as<arma::vec>(full_set_temp);
 IntegerVector psi_sample_set = seq(1, n);
 arma::vec g_set = (g - 1);

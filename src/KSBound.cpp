@@ -34,7 +34,8 @@ Rcpp::List KSBound(int mcmc_samples,
 
 //Defining Parameters and Quantities of Interest
 int n = y.size();
-arma::mat beta(x.n_cols, mcmc_samples); beta.fill(0);
+int p_x = x.n_cols;
+arma::mat beta(p_x, mcmc_samples); beta.fill(0);
 arma::mat theta(m_max, mcmc_samples); theta.fill(0);
 arma::vec sigma2_theta(mcmc_samples); sigma2_theta.fill(0);
 arma::mat g(n, mcmc_samples); g.fill(0);
@@ -60,7 +61,7 @@ p = p_init;
 neg_two_loglike(0) = neg_two_loglike_init;
 
 //Metropolis Settings
-arma::vec acctot_beta(x.n_cols); acctot_beta.fill(0);
+arma::vec acctot_beta(p_x); acctot_beta.fill(0);
 arma::vec acctot_theta(m_max); acctot_theta.fill(0);
 
 for(int j = 1; j < mcmc_samples; ++j){

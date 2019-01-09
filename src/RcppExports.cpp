@@ -6,6 +6,41 @@
 
 using namespace Rcpp;
 
+// KSBound
+Rcpp::List KSBound(int mcmc_samples, int m_max, arma::mat spatial_neighbors, arma::vec y, arma::vec offset, arma::mat x, arma::vec beta_mu, arma::vec beta_sd, double sigma2_theta_a, double sigma2_theta_b, double alpha_a, double alpha_b, arma::vec mhvar_beta, arma::vec mhvar_theta, arma::vec beta_init, arma::vec theta_init, double sigma2_theta_init, arma::vec g_init, arma::vec v_init, double alpha_init, arma::vec psi_init, arma::vec u_init, arma::vec c_init, arma::mat p_init, double neg_two_loglike_init);
+RcppExport SEXP _KSBound_KSBound(SEXP mcmc_samplesSEXP, SEXP m_maxSEXP, SEXP spatial_neighborsSEXP, SEXP ySEXP, SEXP offsetSEXP, SEXP xSEXP, SEXP beta_muSEXP, SEXP beta_sdSEXP, SEXP sigma2_theta_aSEXP, SEXP sigma2_theta_bSEXP, SEXP alpha_aSEXP, SEXP alpha_bSEXP, SEXP mhvar_betaSEXP, SEXP mhvar_thetaSEXP, SEXP beta_initSEXP, SEXP theta_initSEXP, SEXP sigma2_theta_initSEXP, SEXP g_initSEXP, SEXP v_initSEXP, SEXP alpha_initSEXP, SEXP psi_initSEXP, SEXP u_initSEXP, SEXP c_initSEXP, SEXP p_initSEXP, SEXP neg_two_loglike_initSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type mcmc_samples(mcmc_samplesSEXP);
+    Rcpp::traits::input_parameter< int >::type m_max(m_maxSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type spatial_neighbors(spatial_neighborsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type offset(offsetSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type beta_mu(beta_muSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type beta_sd(beta_sdSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma2_theta_a(sigma2_theta_aSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma2_theta_b(sigma2_theta_bSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_a(alpha_aSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_b(alpha_bSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type mhvar_beta(mhvar_betaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type mhvar_theta(mhvar_thetaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type beta_init(beta_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type theta_init(theta_initSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma2_theta_init(sigma2_theta_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type g_init(g_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type v_init(v_initSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha_init(alpha_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type psi_init(psi_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type u_init(u_initSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type c_init(c_initSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type p_init(p_initSEXP);
+    Rcpp::traits::input_parameter< double >::type neg_two_loglike_init(neg_two_loglike_initSEXP);
+    rcpp_result_gen = Rcpp::wrap(KSBound(mcmc_samples, m_max, spatial_neighbors, y, offset, x, beta_mu, beta_sd, sigma2_theta_a, sigma2_theta_b, alpha_a, alpha_b, mhvar_beta, mhvar_theta, beta_init, theta_init, sigma2_theta_init, g_init, v_init, alpha_init, psi_init, u_init, c_init, p_init, neg_two_loglike_init));
+    return rcpp_result_gen;
+END_RCPP
+}
 // alpha_update
 double alpha_update(arma::vec v, double alpha_a, double alpha_b);
 RcppExport SEXP _KSBound_alpha_update(SEXP vSEXP, SEXP alpha_aSEXP, SEXP alpha_bSEXP) {
@@ -54,41 +89,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type u(uSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type p(pSEXP);
     rcpp_result_gen = Rcpp::wrap(g_update(y, offset, x, beta, theta, c, u, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// KSBound
-Rcpp::List KSBound(int mcmc_samples, int m_max, arma::mat spatial_neighbors, arma::vec y, arma::vec offset, arma::mat x, arma::vec beta_mu, arma::vec beta_sd, double sigma2_theta_a, double sigma2_theta_b, double alpha_a, double alpha_b, arma::vec mhvar_beta, arma::vec mhvar_theta, arma::vec beta_init, arma::vec theta_init, double sigma2_theta_init, arma::vec g_init, arma::vec v_init, double alpha_init, arma::vec psi_init, arma::vec u_init, arma::vec c_init, arma::mat p_init, double neg_two_loglike_init);
-RcppExport SEXP _KSBound_KSBound(SEXP mcmc_samplesSEXP, SEXP m_maxSEXP, SEXP spatial_neighborsSEXP, SEXP ySEXP, SEXP offsetSEXP, SEXP xSEXP, SEXP beta_muSEXP, SEXP beta_sdSEXP, SEXP sigma2_theta_aSEXP, SEXP sigma2_theta_bSEXP, SEXP alpha_aSEXP, SEXP alpha_bSEXP, SEXP mhvar_betaSEXP, SEXP mhvar_thetaSEXP, SEXP beta_initSEXP, SEXP theta_initSEXP, SEXP sigma2_theta_initSEXP, SEXP g_initSEXP, SEXP v_initSEXP, SEXP alpha_initSEXP, SEXP psi_initSEXP, SEXP u_initSEXP, SEXP c_initSEXP, SEXP p_initSEXP, SEXP neg_two_loglike_initSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type mcmc_samples(mcmc_samplesSEXP);
-    Rcpp::traits::input_parameter< int >::type m_max(m_maxSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type spatial_neighbors(spatial_neighborsSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type offset(offsetSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type beta_mu(beta_muSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type beta_sd(beta_sdSEXP);
-    Rcpp::traits::input_parameter< double >::type sigma2_theta_a(sigma2_theta_aSEXP);
-    Rcpp::traits::input_parameter< double >::type sigma2_theta_b(sigma2_theta_bSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha_a(alpha_aSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha_b(alpha_bSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type mhvar_beta(mhvar_betaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type mhvar_theta(mhvar_thetaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type beta_init(beta_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type theta_init(theta_initSEXP);
-    Rcpp::traits::input_parameter< double >::type sigma2_theta_init(sigma2_theta_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type g_init(g_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type v_init(v_initSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha_init(alpha_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type psi_init(psi_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type u_init(u_initSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type c_init(c_initSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type p_init(p_initSEXP);
-    Rcpp::traits::input_parameter< double >::type neg_two_loglike_init(neg_two_loglike_initSEXP);
-    rcpp_result_gen = Rcpp::wrap(KSBound(mcmc_samples, m_max, spatial_neighbors, y, offset, x, beta_mu, beta_sd, sigma2_theta_a, sigma2_theta_b, alpha_a, alpha_b, mhvar_beta, mhvar_theta, beta_init, theta_init, sigma2_theta_init, g_init, v_init, alpha_init, psi_init, u_init, c_init, p_init, neg_two_loglike_init));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -171,10 +171,10 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_KSBound_KSBound", (DL_FUNC) &_KSBound_KSBound, 25},
     {"_KSBound_alpha_update", (DL_FUNC) &_KSBound_alpha_update, 3},
     {"_KSBound_beta_update", (DL_FUNC) &_KSBound_beta_update, 10},
     {"_KSBound_g_update", (DL_FUNC) &_KSBound_g_update, 8},
-    {"_KSBound_KSBound", (DL_FUNC) &_KSBound_KSBound, 25},
     {"_KSBound_neg_two_loglike_update", (DL_FUNC) &_KSBound_neg_two_loglike_update, 6},
     {"_KSBound_sigma2_theta_update", (DL_FUNC) &_KSBound_sigma2_theta_update, 3},
     {"_KSBound_theta_update", (DL_FUNC) &_KSBound_theta_update, 9},
