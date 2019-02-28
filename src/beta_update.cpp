@@ -19,11 +19,11 @@ Rcpp::List beta_update(arma::vec y,
   
 int n = y.size();
 int p_x = x.n_cols;
-arma::vec lambda(n); lambda.fill(0);
-arma::vec dens(n); dens.fill(0);
-double second = 0;
-double first = 0;
-double ratio = 0;
+arma::vec lambda(n); lambda.fill(0.00);
+arma::vec dens(n); dens.fill(0.00);
+double second = 0.00;
+double first = 0.00;
+double ratio = 0.00;
 int acc = 0;
 arma::vec beta = beta_old;
 arma::uvec g_subset = as<arma::uvec>(wrap(g_old)) - 1;
@@ -71,7 +71,7 @@ for(int j = 0; j < p_x; ++j){
    /*Decision*/
    ratio = exp(first - second);  
    acc = 1;
-   if(ratio < R::runif(0,1)){
+   if(ratio < R::runif(0.00, 1.00)){
      beta(j) = beta_old(j);
      acc = 0;
      }

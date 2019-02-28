@@ -14,7 +14,7 @@ double neg_two_loglike_update(arma::vec y,
                               arma::vec g){
 
 int n = y.size();
-arma::vec dens(n); dens.fill(0);
+arma::vec dens(n); dens.fill(0.00);
 arma::uvec g_subset = as<arma::uvec>(wrap(g)) - 1;
 arma::vec theta_g = theta(g_subset);
 arma::vec lambda = exp(offset + 

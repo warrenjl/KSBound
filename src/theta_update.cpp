@@ -18,9 +18,9 @@ Rcpp::List theta_update(arma::vec y,
   
 int n = y.size();
 int m_max = theta_old.size();
-double second = 0;
-double first = 0;
-double ratio = 0;
+double second = 0.00;
+double first = 0.00;
+double ratio = 0.00;
 int acc = 0;
 arma::vec theta = theta_old;
   
@@ -32,8 +32,8 @@ for(int j = 0; j < max(g_old); ++j){
      }
     
    if(sum((g_old - 1) == j) > 0){
-     arma::vec dens(n); dens.fill(0);
-     arma::vec lambda(n); lambda.fill(0);
+     arma::vec dens(n); dens.fill(0.00);
+     arma::vec lambda(n); lambda.fill(0.00);
       
      /*Second*/
      lambda = exp(offset + 
@@ -50,7 +50,7 @@ for(int j = 0; j < max(g_old); ++j){
       
      second = sum(dens) +
               R::dnorm(theta(j),
-                       0,
+                       0.00,
                        sqrt(sigma2_theta_old),
                        TRUE);
       
@@ -72,14 +72,14 @@ for(int j = 0; j < max(g_old); ++j){
       
      first = sum(dens) +
              R::dnorm(theta(j),
-                      0,
+                      0.00,
                       sqrt(sigma2_theta_old),
                       TRUE);
       
      /*Decision*/
      ratio = exp(first - second);   
      acc = 1;
-     if(ratio < R::runif(0, 1)){
+     if(ratio < R::runif(0.00, 1.00)){
        theta(j) = theta_old(j);
        acc = 0;
        }
@@ -90,7 +90,7 @@ for(int j = 0; j < max(g_old); ++j){
    }
   
 for(int j = max(g_old); j < m_max; ++j){
-   theta(j) = R::rnorm(0,
+   theta(j) = R::rnorm(0.00,
                        sqrt(sigma2_theta_old));
    }
   

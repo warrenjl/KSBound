@@ -35,17 +35,17 @@ Rcpp::List KSBound(int mcmc_samples,
 //Defining Parameters and Quantities of Interest
 int n = y.size();
 int p_x = x.n_cols;
-arma::mat beta(p_x, mcmc_samples); beta.fill(0);
-arma::mat theta(m_max, mcmc_samples); theta.fill(0);
-arma::vec sigma2_theta(mcmc_samples); sigma2_theta.fill(0);
-arma::mat g(n, mcmc_samples); g.fill(0);
-arma::mat v(m_max, mcmc_samples); v.fill(0);
-arma::vec alpha(mcmc_samples); alpha.fill(0);
-arma::mat psi(m_max, mcmc_samples); psi.fill(0);
+arma::mat beta(p_x, mcmc_samples); beta.fill(0.00);
+arma::mat theta(m_max, mcmc_samples); theta.fill(0.00);
+arma::vec sigma2_theta(mcmc_samples); sigma2_theta.fill(0.00);
+arma::mat g(n, mcmc_samples); g.fill(0.00);
+arma::mat v(m_max, mcmc_samples); v.fill(0.00);
+arma::vec alpha(mcmc_samples); alpha.fill(0.00);
+arma::mat psi(m_max, mcmc_samples); psi.fill(0.00);
 arma::vec u(n); u.fill(0);
 arma::vec c(n); c.fill(0);
-arma::mat p(n, m_max); p.fill(0);
-arma::vec neg_two_loglike(mcmc_samples); neg_two_loglike.fill(0);
+arma::mat p(n, m_max); p.fill(0.00);
+arma::vec neg_two_loglike(mcmc_samples); neg_two_loglike.fill(0.00);
 
 //Initial Values
 beta.col(0) = beta_init;
@@ -61,8 +61,8 @@ p = p_init;
 neg_two_loglike(0) = neg_two_loglike_init;
 
 //Metropolis Settings
-arma::vec acctot_beta(p_x); acctot_beta.fill(0);
-arma::vec acctot_theta(m_max); acctot_theta.fill(0);
+arma::vec acctot_beta(p_x); acctot_beta.fill(0.00);
+arma::vec acctot_theta(m_max); acctot_theta.fill(0.00);
 
 for(int j = 1; j < mcmc_samples; ++j){
   

@@ -17,12 +17,12 @@ arma::vec g_update(arma::vec y,
  
 int n = y.size();
 arma::vec mean_piece = offset + x*beta;
-arma::vec lambda(1); lambda.fill(0);
-arma::vec g(n); g.fill(0);
+arma::vec lambda(1); lambda.fill(0.00);
+arma::vec g(n); g.fill(0.00);
 
 for(int j = 0; j < n; ++j){
 
-   arma::vec log_val(c(j)); log_val.fill(0);
+   arma::vec log_val(c(j)); log_val.fill(0.00);
    arma::rowvec p_row = p.row(j);
 
    for(int k = 0; k < c(j); ++k){
@@ -35,12 +35,12 @@ for(int j = 0; j < n; ++j){
                    log(u(j) <= p_row(k));
       }
 
-   arma::vec probs(c(j)); probs.fill(0);
+   arma::vec probs(c(j)); probs.fill(0.00);
 
    for(int k = 0; k < c(j); ++k){
       probs(k) = 1/(sum(exp(log_val - log_val(k))));
       if(arma::is_finite(probs(k)) == 0){
-        probs(k) = 0;  /*Computational Correction*/
+        probs(k) = 0.00;  /*Computational Correction*/
         }
       }
 

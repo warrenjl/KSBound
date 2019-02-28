@@ -13,8 +13,8 @@ Rcpp::List u_p_c_update(arma::mat spatial_neighbors,
 
 int n = spatial_neighbors.n_rows;
 int m_max = v.size();
-arma::rowvec one(1); one.fill(1);
-arma::mat p(n, m_max); p.fill(0);
+arma::rowvec one(1); one.fill(1.00);
+arma::mat p(n, m_max); p.fill(0.00);
 arma::vec u(n); u.fill(0);
 arma::vec c(n); c.fill(0);
 
@@ -31,7 +31,7 @@ for(int j = 0; j < n; ++j){
    arma::rowvec weights = stick_to_right%vw;
    p.row(j) = weights;
    
-   u(j) = R::runif(0,
+   u(j) = R::runif(0.00,
                    p(j, (g(j) - 1)));
    int k = 0;
    c(j) = k;
