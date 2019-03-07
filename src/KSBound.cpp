@@ -147,7 +147,7 @@ for(int j = 1; j < mcmc_samples; ++j){
     Rcpp::checkUserInterrupt();
     }
   
-  if((j % 10) == 0){
+  if(((j + 1) % 10) == 0){
     Rcpp::Rcout << j << std::endl;
     Rcpp::Rcout << neg_two_loglike(j) << std::endl;
     }
