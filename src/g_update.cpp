@@ -38,8 +38,8 @@ for(int j = 0; j < n; ++j){
    arma::vec probs(c(j)); probs.fill(0.00);
 
    for(int k = 0; k < c(j); ++k){
-      probs(k) = 1/(sum(exp(log_val - log_val(k))));
-      if(arma::is_finite(probs(k)) == 0){
+      probs(k) = 1.00/(sum(exp(log_val - log_val(k))));
+      if(arma::is_finite(probs(k)) == 0.00){
         probs(k) = 0.00;  /*Computational Correction*/
         }
       }
