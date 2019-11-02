@@ -17,8 +17,8 @@ double sigma2_theta_a_update = 0.50*m_max +
 double sigma2_theta_b_update = 0.50*sum(theta%theta) + 
                                sigma2_theta_b;
 
-double sigma2_theta = 1/R::rgamma(sigma2_theta_a_update,
-                                  (1/sigma2_theta_b_update));
+double sigma2_theta = 1.00/R::rgamma(sigma2_theta_a_update,
+                                     (1/sigma2_theta_b_update));
 
 return sigma2_theta;
 
