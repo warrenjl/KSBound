@@ -221,7 +221,19 @@ for(int j = 1; j < mcmc_samples; ++j){
     double completion = round(100*((j + 1)/(double)mcmc_samples));
     Rcpp::Rcout << "Progress: " << completion << "%" << std::endl;
     
-    Rcpp::Rcout << "**************" << std::endl;
+    double accrate_beta_min = round(100*(min(acctot_beta)/(double)j));
+    Rcpp::Rcout << "beta Acceptance (min): " << accrate_beta_min << "%" << std::endl;
+    
+    double accrate_beta_max = round(100*(max(acctot_beta)/(double)j));
+    Rcpp::Rcout << "beta Acceptance (max): " << accrate_beta_max << "%" << std::endl;
+    
+    double accrate_theta_min = round(100*(min(acctot_theta.subvec(0, (max(g.col(j)) - 1)))/(double)j));
+    Rcpp::Rcout << "theta Acceptance (min): " << accrate_theta_min << "%" << std::endl;
+    
+    double accrate_theta_max = round(100*(max(acctot_theta.subvec(0, (max(g.col(j)) - 1)))/(double)j));
+    Rcpp::Rcout << "theta Acceptance (max): " << accrate_theta_max << "%" << std::endl;
+    
+    Rcpp::Rcout << "****************************" << std::endl;
     
     }
   
