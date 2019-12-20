@@ -12,25 +12,21 @@ Rcpp::List KSBound(int mcmc_samples,
                    arma::vec y,
                    arma::vec offset, 
                    arma::mat x, 
-                   arma::vec beta_mu,
-                   arma::vec beta_sd,
-                   double sigma2_theta_a,
-                   double sigma2_theta_b,
-                   double alpha_a,
-                   double alpha_b,
                    arma::vec mhvar_beta,
                    arma::vec mhvar_theta,
-                   arma::vec beta_init,
-                   arma::vec theta_init,
-                   double sigma2_theta_init,
-                   arma::vec g_init,
-                   arma::vec v_init,
-                   double alpha_init,
-                   arma::vec psi_init,
-                   arma::vec u_init,
-                   arma::vec c_init,
-                   arma::mat p_init,
-                   double neg_two_loglike_init){
+                   Rcpp::Nullable<Rcpp::NumericVector> beta_mu_prior = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> beta_sd_prior = R_NilValue,
+                   Rcpp::Nullable<double> sigma2_theta_a_prior = R_NilValue,
+                   Rcpp::Nullable<double> sigma2_theta_b_prior = R_NilValue,
+                   Rcpp::Nullable<double> alpha_a_prior = R_NilValue,
+                   Rcpp::Nullable<double> alpha_b_prior = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> beta_init = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> theta_init = R_NilValue,
+                   Rcpp::Nullable<double> sigma2_theta_init = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> g_init = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> v_init = R_NilValue,
+                   Rcpp::Nullable<double> alpha_init = R_NilValue,
+                   Rcpp::Nullable<Rcpp::NumericVector> psi_init = R_NilValue){
 
 //Defining Parameters and Quantities of Interest
 int n = y.size();
@@ -47,24 +43,107 @@ arma::vec c(n); c.fill(0);
 arma::mat p(n, m_max); p.fill(0.00);
 arma::vec neg_two_loglike(mcmc_samples); neg_two_loglike.fill(0.00);
 
+//Prior Information
+arma::vec beta_mu(p_x); beta_mu.fill(0.00);
+if(beta_mu_prior.isNotNull()){
+  beta_mu = Rcpp::as<arma::vec>(beta_mu_prior);
+  }
+
+arma::vec beta_sd(p_x); beta_sd.fill(100.00);
+if(beta_sd_prior.isNotNull()){
+  beta_sd = Rcpp::as<arma::vec>(beta_sd_prior);
+  }
+
+double sigma2_theta_a = 0.01;
+if(sigma2_theta_a_prior.isNotNull()){
+  sigma2_theta_a = Rcpp::as<double>(sigma2_theta_a_prior);
+  }
+
+double sigma2_theta_b = 0.01;
+if(sigma2_theta_b_prior.isNotNull()){
+  sigma2_theta_b = Rcpp::as<double>(sigma2_theta_b_prior);
+  }
+
+double alpha_a = 0.01;
+if(alpha_a_prior.isNotNull()){
+  alpha_a = Rcpp::as<double>(alpha_a_prior);
+  }
+
+double alpha_b = 0.01;
+if(alpha_b_prior.isNotNull()){
+  alpha_b = Rcpp::as<double>(alpha_b_prior);
+  }
+
 //Initial Values
-beta.col(0) = beta_init;
-theta.col(0) = theta_init;
-sigma2_theta(0) = sigma2_theta_init;
-g.col(0) = g_init;
-v.col(0) = v_init;
-alpha(0) = alpha_init;
-psi.col(0) = psi_init;
-u = u_init;
-c = c_init;
-p = p_init;
-neg_two_loglike(0) = neg_two_loglike_init;
+beta.col(0).fill(0.00);
+if(beta_init.isNotNull()){
+  beta.col(0) = Rcpp::as<arma::vec>(beta_init);
+  }
+
+theta.col(0).fill(0.00);
+if(theta_init.isNotNull()){
+  theta.col(0) = Rcpp::as<arma::vec>(theta_init);
+  }
+
+sigma2_theta(0) = 1.00;
+if(sigma2_theta_init.isNotNull()){
+  sigma2_theta(0) = Rcpp::as<double>(sigma2_theta_init);
+  }
+
+alpha(0) = 1.00;
+if(alpha_init.isNotNull()){
+  alpha(0) = Rcpp::as<double>(alpha_init);
+  }
+
+v.col(0).fill(0.999);
+if(v_init.isNotNull()){
+  v.col(0) = Rcpp::as<arma::vec>(v_init);
+  }
+
+psi.col(0).fill(1.00);
+for(int j = 0; j < n; ++j){
+   psi(j,0) = (j + 1.00);
+   }
+if(psi_init.isNotNull()){
+  psi.col(0) = Rcpp::as<arma::vec>(psi_init);
+  }
+
+for(int j = 0; j < n; ++j){
+  
+   double stop = 0.00;
+   for(int k = 0; k < n; ++k){
+     
+      if(stop == 0.00){
+        if(spatial_neighbors(j,k) == 1){
+             
+          g(j,0) = (k + 1);
+          stop = 1.00;
+             
+          }
+        }
+      
+      }
+   }
+if(g_init.isNotNull()){
+  g.col(0) = Rcpp::as<arma::vec>(g_init);
+  }
 
 //Metropolis Settings
 arma::vec acctot_beta(p_x); acctot_beta.fill(0.00);
 arma::vec acctot_theta(m_max); acctot_theta.fill(0.00);
 
+//Main Sampling Loop
 for(int j = 1; j < mcmc_samples; ++j){
+  
+  //u, p, c Update
+  Rcpp::List u_p_c_output = u_p_c_update(spatial_neighbors,
+                                         v.col(j-1),
+                                         psi.col(j-1),
+                                         g.col(j-1));
+  
+  u = Rcpp::as<arma::vec>(u_p_c_output[0]);
+  p = Rcpp::as<arma::mat>(u_p_c_output[1]);
+  c = Rcpp::as<arma::vec>(u_p_c_output[2]);
   
   //beta Update
   Rcpp::List beta_output = beta_update(y,
@@ -124,16 +203,6 @@ for(int j = 1; j < mcmc_samples; ++j){
                           alpha_a,
                           alpha_b);
   
-  //u, p, c Update
-  Rcpp::List u_p_c_output = u_p_c_update(spatial_neighbors,
-                                         v.col(j),
-                                         psi.col(j),
-                                         g.col(j));
-  
-  u = Rcpp::as<arma::vec>(u_p_c_output[0]);
-  p = Rcpp::as<arma::mat>(u_p_c_output[1]);
-  c = Rcpp::as<arma::vec>(u_p_c_output[2]);
-  
   //neg_two_loglike Update
   neg_two_loglike(j) = neg_two_loglike_update(y,
                                               offset, 
@@ -143,27 +212,31 @@ for(int j = 1; j < mcmc_samples; ++j){
                                               g.col(j));
   
   //Progress
-  if(j % 10 == 0){ 
+  if((j + 1) % 10 == 0){ 
     Rcpp::checkUserInterrupt();
     }
   
-  if(((j + 1) % 10) == 0){
-    Rcpp::Rcout << j << std::endl;
-    Rcpp::Rcout << neg_two_loglike(j) << std::endl;
+  if(((j + 1) % int(round(mcmc_samples*0.10)) == 0)){
+    
+    double completion = round(100*((j + 1)/(double)mcmc_samples));
+    Rcpp::Rcout << "Progress: " << completion << "%" << std::endl;
+    
+    Rcpp::Rcout << "**************" << std::endl;
+    
     }
   
   }
                                   
-return Rcpp::List::create(Rcpp::Named("beta")=beta,
-                          Rcpp::Named("acctot_beta")=acctot_beta,
-                          Rcpp::Named("theta")=theta,
-                          Rcpp::Named("acctot_theta")=acctot_theta,
-                          Rcpp::Named("sigma2_theta")=sigma2_theta,
-                          Rcpp::Named("g")=g,
-                          Rcpp::Named("v")=v,
-                          Rcpp::Named("psi")=psi,
-                          Rcpp::Named("alpha")=alpha,
-                          Rcpp::Named("neg_two_loglike")=neg_two_loglike);
+return Rcpp::List::create(Rcpp::Named("beta") = beta,
+                          Rcpp::Named("acctot_beta") = acctot_beta,
+                          Rcpp::Named("theta") = theta,
+                          Rcpp::Named("acctot_theta") = acctot_theta,
+                          Rcpp::Named("sigma2_theta") = sigma2_theta,
+                          Rcpp::Named("g") = g,
+                          Rcpp::Named("v") = v,
+                          Rcpp::Named("psi") = psi,
+                          Rcpp::Named("alpha") = alpha,
+                          Rcpp::Named("neg_two_loglike") = neg_two_loglike);
 
 }
 

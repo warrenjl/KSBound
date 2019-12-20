@@ -38,14 +38,17 @@ for(int j = 0; j < n; ++j){
    while((1 - u(j)) >= sum(weights.subvec(0, c(j)))){
         ++k;
         c(j) = k;
+        if(k == m_max){
+          stop("Error: m_max Too Small");
+          }
         }
    ++c(j);
 
    }
 
-return Rcpp::List::create(Rcpp::Named("u")=u,
-                          Rcpp::Named("p")=p,
-                          Rcpp::Named("c")=c);
+return Rcpp::List::create(Rcpp::Named("u") = u,
+                          Rcpp::Named("p") = p,
+                          Rcpp::Named("c") = c);
 
 }
 
