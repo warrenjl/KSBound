@@ -7,8 +7,8 @@
 using namespace Rcpp;
 
 // KSBound
-Rcpp::List KSBound(int mcmc_samples, int m_max, arma::mat spatial_neighbors, arma::vec y, arma::vec offset, arma::mat x, arma::vec mhvar_beta, arma::vec mhvar_theta, Rcpp::Nullable<Rcpp::NumericVector> beta_mu_prior, Rcpp::Nullable<Rcpp::NumericVector> beta_sd_prior, Rcpp::Nullable<double> sigma2_theta_a_prior, Rcpp::Nullable<double> sigma2_theta_b_prior, Rcpp::Nullable<double> alpha_a_prior, Rcpp::Nullable<double> alpha_b_prior, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_theta_init, Rcpp::Nullable<Rcpp::NumericVector> g_init, Rcpp::Nullable<Rcpp::NumericVector> v_init, Rcpp::Nullable<double> alpha_init, Rcpp::Nullable<Rcpp::NumericVector> psi_init);
-RcppExport SEXP _KSBound_KSBound(SEXP mcmc_samplesSEXP, SEXP m_maxSEXP, SEXP spatial_neighborsSEXP, SEXP ySEXP, SEXP offsetSEXP, SEXP xSEXP, SEXP mhvar_betaSEXP, SEXP mhvar_thetaSEXP, SEXP beta_mu_priorSEXP, SEXP beta_sd_priorSEXP, SEXP sigma2_theta_a_priorSEXP, SEXP sigma2_theta_b_priorSEXP, SEXP alpha_a_priorSEXP, SEXP alpha_b_priorSEXP, SEXP beta_initSEXP, SEXP theta_initSEXP, SEXP sigma2_theta_initSEXP, SEXP g_initSEXP, SEXP v_initSEXP, SEXP alpha_initSEXP, SEXP psi_initSEXP) {
+Rcpp::List KSBound(int mcmc_samples, int m_max, arma::mat spatial_neighbors, arma::vec y, arma::vec offset, arma::mat x, arma::vec mhvar_beta, arma::vec mhvar_theta, Rcpp::Nullable<Rcpp::NumericVector> beta_mu_prior, Rcpp::Nullable<Rcpp::NumericVector> beta_sd_prior, Rcpp::Nullable<double> sigma2_theta_a_prior, Rcpp::Nullable<double> sigma2_theta_b_prior, Rcpp::Nullable<double> alpha_a_prior, Rcpp::Nullable<double> alpha_b_prior, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_theta_init, Rcpp::Nullable<Rcpp::NumericVector> g_init, Rcpp::Nullable<Rcpp::NumericVector> v_init, Rcpp::Nullable<double> alpha_init, Rcpp::Nullable<Rcpp::NumericVector> psi_init, Rcpp::Nullable<double> alpha_fix);
+RcppExport SEXP _KSBound_KSBound(SEXP mcmc_samplesSEXP, SEXP m_maxSEXP, SEXP spatial_neighborsSEXP, SEXP ySEXP, SEXP offsetSEXP, SEXP xSEXP, SEXP mhvar_betaSEXP, SEXP mhvar_thetaSEXP, SEXP beta_mu_priorSEXP, SEXP beta_sd_priorSEXP, SEXP sigma2_theta_a_priorSEXP, SEXP sigma2_theta_b_priorSEXP, SEXP alpha_a_priorSEXP, SEXP alpha_b_priorSEXP, SEXP beta_initSEXP, SEXP theta_initSEXP, SEXP sigma2_theta_initSEXP, SEXP g_initSEXP, SEXP v_initSEXP, SEXP alpha_initSEXP, SEXP psi_initSEXP, SEXP alpha_fixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -33,7 +33,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type v_init(v_initSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type alpha_init(alpha_initSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type psi_init(psi_initSEXP);
-    rcpp_result_gen = Rcpp::wrap(KSBound(mcmc_samples, m_max, spatial_neighbors, y, offset, x, mhvar_beta, mhvar_theta, beta_mu_prior, beta_sd_prior, sigma2_theta_a_prior, sigma2_theta_b_prior, alpha_a_prior, alpha_b_prior, beta_init, theta_init, sigma2_theta_init, g_init, v_init, alpha_init, psi_init));
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type alpha_fix(alpha_fixSEXP);
+    rcpp_result_gen = Rcpp::wrap(KSBound(mcmc_samples, m_max, spatial_neighbors, y, offset, x, mhvar_beta, mhvar_theta, beta_mu_prior, beta_sd_prior, sigma2_theta_a_prior, sigma2_theta_b_prior, alpha_a_prior, alpha_b_prior, beta_init, theta_init, sigma2_theta_init, g_init, v_init, alpha_init, psi_init, alpha_fix));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -167,7 +168,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_KSBound_KSBound", (DL_FUNC) &_KSBound_KSBound, 21},
+    {"_KSBound_KSBound", (DL_FUNC) &_KSBound_KSBound, 22},
     {"_KSBound_alpha_update", (DL_FUNC) &_KSBound_alpha_update, 3},
     {"_KSBound_beta_update", (DL_FUNC) &_KSBound_beta_update, 10},
     {"_KSBound_g_update", (DL_FUNC) &_KSBound_g_update, 8},

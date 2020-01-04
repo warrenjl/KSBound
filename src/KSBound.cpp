@@ -26,7 +26,8 @@ Rcpp::List KSBound(int mcmc_samples,
                    Rcpp::Nullable<Rcpp::NumericVector> g_init = R_NilValue,
                    Rcpp::Nullable<Rcpp::NumericVector> v_init = R_NilValue,
                    Rcpp::Nullable<double> alpha_init = R_NilValue,
-                   Rcpp::Nullable<Rcpp::NumericVector> psi_init = R_NilValue){
+                   Rcpp::Nullable<Rcpp::NumericVector> psi_init = R_NilValue,
+                   Rcpp::Nullable<double> alpha_fix = R_NilValue){
 
 //Defining Parameters and Quantities of Interest
 int n = y.size();
@@ -72,6 +73,10 @@ if(alpha_a_prior.isNotNull()){
 double alpha_b = 0.01;
 if(alpha_b_prior.isNotNull()){
   alpha_b = Rcpp::as<double>(alpha_b_prior);
+  }
+
+if(alpha_fix.isNotNull()){
+  alpha.fill(Rcpp::as<double>(alpha_fix));
   }
 
 //Initial Values
@@ -199,9 +204,11 @@ for(int j = 1; j < mcmc_samples; ++j){
   psi.col(j) = Rcpp::as<arma::vec>(v_psi_output[1]);
   
   //alpha Update
-  alpha(j) = alpha_update(v.col(j),
-                          alpha_a,
-                          alpha_b);
+  if(alpha_fix.isNotNull() == 0){
+    alpha(j) = alpha_update(v.col(j),
+                            alpha_a,
+                            alpha_b);
+    }
   
   //neg_two_loglike Update
   neg_two_loglike(j) = neg_two_loglike_update(y,
