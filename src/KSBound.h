@@ -83,6 +83,7 @@ Rcpp::List KSBound(int mcmc_samples,
                    Rcpp::Nullable<Rcpp::NumericVector> v_init,
                    Rcpp::Nullable<double> alpha_init,
                    Rcpp::Nullable<Rcpp::NumericVector> psi_init,
-                   Rcpp::Nullable<double> alpha_fix); 
+                   Rcpp::Nullable<double> alpha_fix,
+                   Rcpp::Nullable<double> keep_all_ind); 
 
 #endif // __KSBound__

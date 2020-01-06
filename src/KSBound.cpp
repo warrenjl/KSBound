@@ -27,7 +27,8 @@ Rcpp::List KSBound(int mcmc_samples,
                    Rcpp::Nullable<Rcpp::NumericVector> v_init = R_NilValue,
                    Rcpp::Nullable<double> alpha_init = R_NilValue,
                    Rcpp::Nullable<Rcpp::NumericVector> psi_init = R_NilValue,
-                   Rcpp::Nullable<double> alpha_fix = R_NilValue){
+                   Rcpp::Nullable<double> alpha_fix = R_NilValue,
+                   Rcpp::Nullable<double> keep_all_ind = R_NilValue){
 
 //Defining Parameters and Quantities of Interest
 int n = y.size();
@@ -43,6 +44,7 @@ arma::vec u(n); u.fill(0);
 arma::vec c(n); c.fill(0);
 arma::mat p(n, m_max); p.fill(0.00);
 arma::vec neg_two_loglike(mcmc_samples); neg_two_loglike.fill(0.00);
+arma::mat theta_g(n, mcmc_samples); theta_g.fill(0.00);
 
 //Prior Information
 arma::vec beta_mu(p_x); beta_mu.fill(0.00);
@@ -218,6 +220,11 @@ for(int j = 1; j < mcmc_samples; ++j){
                                               theta.col(j),
                                               g.col(j));
   
+  //Combined Random Effect Update
+  arma::uvec g_temp = as<arma::uvec>(wrap(g.col(j))) - 1;
+  arma::vec theta_temp = theta.col(j);
+  theta_g.col(j) = theta_temp(g_temp);
+  
   //Progress
   if((j + 1) % 10 == 0){ 
     Rcpp::checkUserInterrupt();
@@ -256,17 +263,31 @@ for(int j = 1; j < mcmc_samples; ++j){
     }
   
   }
-                                  
-return Rcpp::List::create(Rcpp::Named("beta") = beta,
-                          Rcpp::Named("acctot_beta") = acctot_beta,
-                          Rcpp::Named("theta") = theta,
-                          Rcpp::Named("acctot_theta") = acctot_theta,
-                          Rcpp::Named("sigma2_theta") = sigma2_theta,
-                          Rcpp::Named("g") = g,
-                          Rcpp::Named("v") = v,
-                          Rcpp::Named("psi") = psi,
-                          Rcpp::Named("alpha") = alpha,
-                          Rcpp::Named("neg_two_loglike") = neg_two_loglike);
+  
+double keep_all = 0.00;
+if(keep_all_ind.isNotNull()){
+  keep_all = Rcpp::as<double>(keep_all_ind);
+  }
+
+if(keep_all == 0.00){
+  return Rcpp::List::create(Rcpp::Named("beta") = beta,
+                            Rcpp::Named("theta_g") = theta_g,
+                            Rcpp::Named("sigma2_theta") = sigma2_theta,
+                            Rcpp::Named("neg_two_loglike") = neg_two_loglike);
+  }
+
+if(keep_all != 0.00){
+  return Rcpp::List::create(Rcpp::Named("beta") = beta,
+                            Rcpp::Named("acctot_beta") = acctot_beta,
+                            Rcpp::Named("theta") = theta,
+                            Rcpp::Named("acctot_theta") = acctot_theta,
+                            Rcpp::Named("sigma2_theta") = sigma2_theta,
+                            Rcpp::Named("g") = g,
+                            Rcpp::Named("v") = v,
+                            Rcpp::Named("psi") = psi,
+                            Rcpp::Named("alpha") = alpha,
+                            Rcpp::Named("neg_two_loglike") = neg_two_loglike);
+  }
 
 }
 
