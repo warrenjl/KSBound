@@ -273,6 +273,7 @@ if(keep_all == 0.00){
   return Rcpp::List::create(Rcpp::Named("beta") = beta,
                             Rcpp::Named("theta_g") = theta_g,
                             Rcpp::Named("sigma2_theta") = sigma2_theta,
+                            Rcpp::Named("alpha") = alpha,
                             Rcpp::Named("neg_two_loglike") = neg_two_loglike);
   }
 
