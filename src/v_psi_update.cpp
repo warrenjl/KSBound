@@ -51,7 +51,7 @@ for(int j = 0; j < max(g); ++j){
                      wrap(final_weights))(0);
    
    if(v(j) == 1.00){
-     v(j) = 0.99999999999999;  //Computational Correction
+     v(j) = 0.99;  //Computational Correction
      }
 
    arma::vec log_val(n); log_val.fill(0.00);
