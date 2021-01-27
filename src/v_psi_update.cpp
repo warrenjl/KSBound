@@ -49,6 +49,10 @@ for(int j = 0; j < max(g); ++j){
                      1, 
                      TRUE, 
                      wrap(final_weights))(0);
+   
+   if(v(j) == 1.00){
+     v(j) = 0.9999999;  //Computational Correction
+     }
 
    arma::vec log_val(n); log_val.fill(0.00);
    for(int k = 0; k < n; ++k){
@@ -59,10 +63,6 @@ for(int j = 0; j < max(g); ++j){
 
       log_val(k) = sum(log(temp_col)) + 
                    sum((g.elem(temp_set) - 1) > j)*log(1.00 - v(j));
-      
-      if((v(j) == 1.00) & (sum((g.elem(temp_set) - 1) > j) == 0)){
-         log_val(k) = sum(log(temp_col));
-         }
       
       }
 
