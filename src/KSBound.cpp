@@ -163,8 +163,8 @@ for(int j = 1; j < mcmc_samples; ++j){
                                        beta_sd,
                                        mhvar_beta,
                                        acctot_beta);
-  beta.col(j) = Rcpp::as<arma::colvec>(beta_output[0]);
-  acctot_beta = Rcpp::as<arma::colvec>(beta_output[1]);
+  beta.col(j) = Rcpp::as<arma::vec>(beta_output[0]);
+  acctot_beta = Rcpp::as<arma::vec>(beta_output[1]);
   
   //theta Update
   Rcpp::List theta_output = theta_update(y,

@@ -36,11 +36,13 @@ for(int j = 0; j < n; ++j){
    int k = 0;
    c(j) = k;
    while((1 - u(j)) >= sum(weights.subvec(0, c(j)))){
+      
         ++k;
         c(j) = k;
         if(k == m_max){
           stop("Error: m_max Too Small");
           }
+        
         }
    ++c(j);
 

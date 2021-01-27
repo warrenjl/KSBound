@@ -26,6 +26,7 @@ for(int j = 0; j < n; ++j){
    arma::rowvec p_row = p.row(j);
 
    for(int k = 0; k < c(j); ++k){
+     
       lambda = exp(mean_piece(j) + 
                    theta(k));
 
@@ -33,6 +34,7 @@ for(int j = 0; j < n; ++j){
                             lambda(0), 
                             TRUE) +
                    log(u(j) <= p_row(k));
+      
       }
 
    arma::vec probs(c(j)); probs.fill(0.00);
@@ -40,7 +42,7 @@ for(int j = 0; j < n; ++j){
    for(int k = 0; k < c(j); ++k){
      
       probs(k) = 1.00/(sum(exp(log_val - log_val(k))));
-      if(arma::is_finite(probs(k)) == 0.00){
+      if(arma::is_finite(probs(k)) == 0){
         probs(k) = 0.00;  /*Computational Correction*/
         }
       

@@ -32,6 +32,7 @@ for(int j = 0; j < max(g_old); ++j){
      }
     
    if(sum((g_old - 1) == j) > 0){
+     
      arma::vec dens(n); dens.fill(0.00);
      arma::vec lambda(n); lambda.fill(0.00);
       

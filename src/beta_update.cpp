@@ -72,8 +72,10 @@ for(int j = 0; j < p_x; ++j){
    ratio = exp(first - second);  
    acc = 1;
    if(ratio < R::runif(0.00, 1.00)){
+      
      beta(j) = beta_old(j);
      acc = 0;
+     
      }
    acctot_beta(j) = acctot_beta(j) + acc;
     

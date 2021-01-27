@@ -70,7 +70,7 @@ for(int j = 0; j < max(g); ++j){
    for(int k = 0; k < n; ++k){
       
       probs(k) = 1.00/(sum(exp(log_val - log_val(k))));
-      if(arma::is_finite(probs(k)) == 0.00){
+      if(arma::is_finite(probs(k)) == 0){
         probs(k) = 0.00;  /*Computational Correction*/
         }
       

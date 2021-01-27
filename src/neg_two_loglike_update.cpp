@@ -26,7 +26,7 @@ for(int j = 0; j < n; ++j){
                       lambda(j),
                       TRUE);
    }
-double neg_two_loglike = -2.0*sum(dens);
+double neg_two_loglike = -2.00*sum(dens);
 
 return neg_two_loglike;
 
