@@ -29,6 +29,7 @@ for(int j = 0; j < max(g); ++j){
    int v_alpha_update = A.size() + 1;
 
    for(int k = 0; k < n; ++k){
+      
       arma::mat spatial_neighbors_rows = spatial_neighbors.rows(A);
       arma::colvec temp_col = spatial_neighbors_rows.col(k);
       weights(k) = arma::prod(temp_col);
@@ -39,7 +40,9 @@ for(int j = 0; j < max(g); ++j){
 
       v_temp(k) = R::rbeta(v_alpha_update,
                            v_beta_update);
+      
       }
+   
    arma::vec final_weights = weights/sum(weights);
 
    v(j) = sampleRcpp(wrap(v_temp), 
@@ -49,22 +52,30 @@ for(int j = 0; j < max(g); ++j){
 
    arma::vec log_val(n); log_val.fill(0.00);
    for(int k = 0; k < n; ++k){
+      
       arma::mat spatial_neighbors_rows = spatial_neighbors.rows(A);
       arma::colvec temp_col = spatial_neighbors_rows.col(k);
       arma::uvec temp_set = find(spatial_neighbors.col(k) == 1);
 
       log_val(k) = sum(log(temp_col)) + 
-                   sum((g.elem(temp_set) - 1) > j)*log(1 - v(j));
+                   sum((g.elem(temp_set) - 1) > j)*log(1.00 - v(j));
+      
+      if((v(j) == 1.00) & (sum((g.elem(temp_set) - 1) > j) == 0)){
+         log_val(k) = sum(log(temp_col));
+         }
+      
       }
 
    arma::vec probs(n); probs.fill(0.00);
    for(int k = 0; k < n; ++k){
-      probs(k) = 1/(sum(exp(log_val - log_val(k))));
-      if(arma::is_finite(probs(k)) == 0){
-        probs(k) = 0;  /*Computational Correction*/
+      
+      probs(k) = 1.00/(sum(exp(log_val - log_val(k))));
+      if(arma::is_finite(probs(k)) == 0.00){
+        probs(k) = 0.00;  /*Computational Correction*/
         }
+      
       }
-
+   
    psi(j) = sampleRcpp(wrap(psi_sample_set), 
                        1, 
                        TRUE, 
@@ -72,7 +83,7 @@ for(int j = 0; j < max(g); ++j){
 
    }
 
-arma::vec probs(n); probs.fill(1); probs = probs/n;
+arma::vec probs(n); probs.fill(1.00); probs = probs/n;
 for(int j = max(g); j < m_max; ++j){
    v(j) = R::rbeta(1.00,
                    alpha_old);
