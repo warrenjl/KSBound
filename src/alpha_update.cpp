@@ -21,12 +21,6 @@ double alpha_b_update = alpha_b -
 double alpha = R::rgamma(alpha_a_update,
                          (1.00/alpha_b_update));
 
-Rcpp::Rcout << "alpha: " << alpha << std::endl;
-Rcpp::Rcout << "a: " << alpha_a_update << std::endl;
-Rcpp::Rcout << "b: " << alpha_b_update << std::endl;
-Rcpp::Rcout << "max_v: " << max(v) << std::endl;
-
-
 return(alpha);
 
 } 
