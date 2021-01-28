@@ -50,8 +50,8 @@ for(int j = 0; j < max(g); ++j){
                      TRUE, 
                      wrap(final_weights))(0);
    
-   if(v(j) > 0.999){
-     v(j) = 0.999;  //Computational Correction
+   if(v(j) == 1.00){
+     v(j) = 0.99999999999999;  //Computational Correction
      }
 
    arma::vec log_val(n); log_val.fill(0.00);
@@ -87,6 +87,10 @@ arma::vec probs(n); probs.fill(1.00); probs = probs/n;
 for(int j = max(g); j < m_max; ++j){
    v(j) = R::rbeta(1.00,
                    alpha_old);
+   
+   if(v(j) == 1.00){
+     v(j) = 0.99999999999999;  //Computational Correction
+     }
   
    psi(j) = sampleRcpp(wrap(psi_sample_set), 
                        1, 
