@@ -1,0 +1,24 @@
+set.seed(28453)
+library(devtools)
+install_github("warrenjl/KSBound")
+library(KSBound)
+
+m_max<-2000
+mcmc_samples<-600000
+
+KSBound_results<-KSBound(mcmc_samples = mcmc_samples,
+                         m_max = m_max,
+                         spatial_neighbors = W_model,
+                         y = y,
+                         offset = offset1, 
+                         x = x, 
+                         mhvar_beta = rep(0.05, 
+                                          times = ncol(x)),
+                         mhvar_theta = rep(0.05, 
+                                           times = m_max),
+                         alpha_a_prior = 10.00,
+                         alpha_b_prior = 10.00,
+                         keep_all_ind = 0.00)
+
+
+
