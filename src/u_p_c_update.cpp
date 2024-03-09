@@ -6,13 +6,13 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-Rcpp::List u_p_c_update(arma::mat spatial_neighbors,
+Rcpp::List u_p_c_update(int n,
+                        int m_max,
+                        arma::mat spatial_neighbors,
                         arma::vec v,
                         arma::vec psi,
                         arma::vec g){
 
-int n = spatial_neighbors.n_rows;
-int m_max = v.size();
 arma::rowvec one(1); one.fill(1.00);
 arma::mat p(n, m_max); p.fill(0.00);
 arma::vec u(n); u.fill(0);
@@ -25,7 +25,7 @@ arma::rowvec v_use = as<arma::rowvec>(wrap(v));
 for(int j = 0; j < n; ++j){
 
    arma::rowvec vw = v_use%spatial_neighbors_psi.row(j);
-   arma::rowvec stick_to_right_temp = arma::cumprod(1 - vw);
+   arma::rowvec stick_to_right_temp = arma::cumprod(1.00 - vw);
    arma::rowvec subset = stick_to_right_temp.subvec(0, (m_max - 2));
    arma::rowvec stick_to_right = join_rows(one, subset);
    arma::rowvec weights = stick_to_right%vw;
@@ -35,7 +35,7 @@ for(int j = 0; j < n; ++j){
                    p(j, (g(j) - 1)));
    int k = 0;
    c(j) = k;
-   while((1 - u(j)) >= sum(weights.subvec(0, c(j)))){
+   while((1.00 - u(j)) >= sum(weights.subvec(0, c(j)))){
       
         ++k;
         c(j) = k;

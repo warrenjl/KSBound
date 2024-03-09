@@ -7,8 +7,10 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 Rcpp::List theta_update(arma::vec y,
-                        arma::vec offset, 
                         arma::mat x, 
+                        int n,
+                        int m_max,
+                        arma::vec off_set, 
                         arma::vec beta,
                         arma::vec theta_old,
                         double sigma2_theta_old,
@@ -16,8 +18,6 @@ Rcpp::List theta_update(arma::vec y,
                         arma::vec mhvar_theta,
                         arma::vec acctot_theta){
   
-int n = y.size();
-int m_max = theta_old.size();
 double second = 0.00;
 double first = 0.00;
 double ratio = 0.00;
@@ -27,7 +27,7 @@ arma::vec theta = theta_old;
 for(int j = 0; j < max(g_old); ++j){
     
    if(sum((g_old - 1) == j) == 0){
-     theta(j) = R::rnorm(0,
+     theta(j) = R::rnorm(0.00,
                          sqrt(sigma2_theta_old));
      }
     
@@ -37,7 +37,7 @@ for(int j = 0; j < max(g_old); ++j){
      arma::vec lambda(n); lambda.fill(0.00);
       
      /*Second*/
-     lambda = exp(offset + 
+     lambda = exp(off_set + 
                   x*beta + 
                   theta(j));
       
@@ -59,7 +59,7 @@ for(int j = 0; j < max(g_old); ++j){
      theta(j) = R::rnorm(theta_old(j), 
                          sqrt(mhvar_theta(j)));
       
-     lambda = exp(offset + 
+     lambda = exp(off_set + 
                   x*beta + 
                   theta(j));
       

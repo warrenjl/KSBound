@@ -49,4 +49,37 @@ $\alpha \sim \text{Gamma}\left(a_{\alpha}, b_{\alpha}\right);$
 
 * $\psi_j = j$ for all $j$.
 
+## Alternate Likelihood: Binomial
+$Y_i|\boldsymbol{\beta}, \eta_i, r \stackrel{\text{ind}}{\sim} \text{Binomial}\left\{c_i, p_i\left(\boldsymbol{\beta}, \eta_i\right)\right\},\ i=1,...,n;$
+
+$\text{ln}\left\{\frac{p_i\left(\boldsymbol{\beta}, \eta_i\right)}{1 - p_i\left(\boldsymbol{\beta}, \eta_i\right)}\right\} = \textbf{x}_i^{\text{T}} \boldsymbol{\beta} + \eta_i.$
+
+## Alternate Likelihood: Gaussian
+$Y_i|\boldsymbol{\beta}, \eta_i, \sigma^2_{\epsilon} \stackrel{\text{ind}}{\sim} \text{Normal}\left(\textbf{x}_i^{\text{T}} \boldsymbol{\beta} + \eta_i, \sigma^2_{\epsilon}\right),\ i=1,...,n.$
+
+* $\sigma^2_{\epsilon} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\epsilon}}, b_{\sigma^2_{\epsilon}}\right);$ 
+
+* Default setting: $a_{\sigma^2_{\epsilon}} = 0.01$, $b_{\sigma^2_{\epsilon}} = 0.01$; 
+
+* Default initial value: $\sigma^2_{\epsilon} = \text{variance}\left(\boldsymbol{Y}\right)$.
+
+## Alternate Likelihood: Negative Binomial
+$Y_i|\boldsymbol{\beta}, \eta_i, r \stackrel{\text{ind}}{\sim} \text{Negative Binomial}\left\{r, \lambda_i\left(\boldsymbol{\beta}, \eta_i\right)\right\},\ i=1,...,n;$
+
+$\text{ln}\left\{\frac{\lambda_i\left(\boldsymbol{\beta}, \eta_i\right)}{1 - \lambda_i\left(\boldsymbol{\beta}, \eta_i\right)}\right\} = \ln\left(\text{E}_i\right) + \textbf{x}_i^{\text{T}} \boldsymbol{\beta} + \eta_i.$
+
+* $r \sim \text{Discrete Uniform}\left[a_r, b_r\right];$ 
+
+* Default setting: $a_r = 1$, $b_r = 100$; 
+
+* Default initial value: $r = b_r$.
+
+## Likelihood Indicator
+* likelihood_indicator $= 0$: Poisson; 
+
+* likelihood_indicator $= 1$: Binomial; 
+
+* likelihood_indicator $= 2$: Gaussian;
+
+* likelihood_indicator $= 3$: Negative binomial.
 

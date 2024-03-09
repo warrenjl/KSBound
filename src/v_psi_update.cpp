@@ -6,13 +6,12 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-Rcpp::List v_psi_update(int m_max,
+Rcpp::List v_psi_update(int n,
+                        int m_max,
                         arma::mat spatial_neighbors,
-                        arma::vec y,
                         arma::vec g,
                         double alpha_old){
  
-int n = y.size();
 IntegerVector full_set_temp = seq(0, (n - 1));
 arma::vec full_set = as<arma::vec>(full_set_temp);
 IntegerVector psi_sample_set = seq(1, n);

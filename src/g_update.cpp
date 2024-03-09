@@ -7,16 +7,17 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 arma::vec g_update(arma::vec y,
-                   arma::vec offset, 
-                   arma::mat x, 
+                   arma::mat x,
+                   int n,
+                   arma::vec off_set, 
                    arma::vec beta, 
                    arma::vec theta, 
                    arma::vec c, 
                    arma::vec u, 
                    arma::mat p){
  
-int n = y.size();
-arma::vec mean_piece = offset + x*beta;
+arma::vec mean_piece = off_set + 
+                       x*beta;
 arma::vec lambda(1); lambda.fill(0.00);
 arma::vec g(n); g.fill(0.00);
 

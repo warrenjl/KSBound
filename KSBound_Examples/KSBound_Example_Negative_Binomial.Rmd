@@ -1,0 +1,130 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# KSBound: Kernel Stick-Breaking Prior Distribution for Spatial Boundary Detection
+
+## KSBound_Example
+
+[1] Simulate data from the proposed model:
+
+* Setting the reproducibility seed and initializing packages for data simulation: 
+```{r}
+set.seed(3357)
+
+library(KSBound)  
+library(mnormt)  #Multivariate normal distribution
+library(fields)
+```
+
+* Creating a Grid:
+```{r}
+n.space<-7
+x.easting<-1:n.space
+x.northing<-1:n.space
+Grid<-expand.grid(x.easting,
+                  x.northing)
+K<-nrow(Grid)
+
+distance<-as.matrix(dist(Grid))
+W<-array(0, c(K,K))
+W[distance == 1]<-1  #Rook definition
+diag(W)<-0
+```
+
+* Simulating Data:
+```{r}
+offset<-rep(0,
+            times = nrow(W))
+
+beta_true<-c(0.75,
+             -0.35)
+
+r_true<-50.00
+
+#Design Matrix
+x<-matrix(1,
+          nrow = nrow(W),
+          ncol = 2)
+x[,2]<-scale(rnorm(n = nrow(W)))
+  
+#Simulating the Data
+phi<-rep(0,
+         times = nrow(W))
+
+center<-25
+phi[W[center,] == 1]<-phi[W[center,] == 1] + 
+                      2.50
+phi[center]<-phi[center] + 
+             2.50  
+neighbor_set<-c(1:nrow(W))[W[center,] == 1]   
+
+par(mfrow = c(1,2))
+image.plot(matrix(c(phi), 
+                  nrow = n.space,
+                  ncol = n.space, 
+                  byrow=TRUE))
+
+logit_p<-x%*%beta_true + 
+         phi
+
+hist(logit_p)
+
+y<-rnbinom(n = nrow(W),
+           size = r_true,
+           prob = (1.00 - 1.00/(1.00 + exp(-logit_p)))) 
+```
+
+[2] Fit KSBound to estimate spatial boundaries:
+
+```{r echo=TRUE}
+results<-KSBound(mcmc_samples = 25000,
+                 m_max = 2000,
+                 spatial_neighbors = W,
+                 y = y,
+                 x = x, 
+                 likelihood_indicator = 3,
+                 alpha_a_prior = 10.00,
+                 alpha_b_prior = 10.00,
+                 keep_all_ind = 0.00)
+```
+
+[3]  Analyzing Output:
+
+```{r}
+par(mfrow=c(2,2))
+plot(results$beta[1, 5001:25000], 
+     type="l",
+     ylab="beta",
+     xlab="Sample")
+abline(h=beta_true[1],
+       col="red",
+       lwd=2)  #True value
+plot(results$beta[2, 5001:25000], 
+     type="l",
+     ylab="beta",
+     xlab="Sample")
+abline(h=beta_true[2],
+       col="red",
+       lwd=2)  #True value
+plot(results$r[5001:25000], 
+     type="l",
+     ylab="r",
+     xlab="Sample")
+abline(h=r_true,
+       col="red",
+       lwd=2)  #True value
+plot(rowMeans(results$theta_g[,5001:25000]), 
+     pch=16,
+     ylab="eta",
+     xlab="Time",
+     ylim = c(-1,3))
+points(phi, 
+       pch=16, 
+       col="red")  #True values
+```

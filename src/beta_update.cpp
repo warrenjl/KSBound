@@ -7,18 +7,17 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 Rcpp::List beta_update(arma::vec y,
-                       arma::vec offset, 
-                       arma::mat x, 
+                       arma::mat x,
+                       int n,
+                       int p_x,
+                       arma::vec off_set, 
                        arma::vec beta_old,  
                        arma::vec theta_old,
                        arma::vec g_old,
-                       arma::vec beta_mu,
-                       arma::vec beta_sd,
+                       double sigma2_beta,
                        arma::vec mhvar_beta,
                        arma::vec acctot_beta){
   
-int n = y.size();
-int p_x = x.n_cols;
 arma::vec lambda(n); lambda.fill(0.00);
 arma::vec dens(n); dens.fill(0.00);
 double second = 0.00;
@@ -32,7 +31,7 @@ arma::vec theta_g = theta_old(g_subset);
 for(int j = 0; j < p_x; ++j){
     
    /*Second*/
-   lambda = exp(offset + 
+   lambda = exp(off_set + 
                 x*beta + 
                 theta_g);
     
@@ -44,15 +43,15 @@ for(int j = 0; j < p_x; ++j){
     
    second = sum(dens) +
             R::dnorm(beta(j),
-                     beta_mu(j),
-                     beta_sd(j),
+                     0.00,
+                     sqrt(sigma2_beta),
                      TRUE); 
     
    /*First*/
    beta(j) = R::rnorm(beta_old(j), 
                       sqrt(mhvar_beta(j)));
     
-   lambda = exp(offset + 
+   lambda = exp(off_set + 
                 x*beta + 
                 theta_g);
     
@@ -64,8 +63,8 @@ for(int j = 0; j < p_x; ++j){
     
    first = sum(dens) +
            R::dnorm(beta(j),
-                    beta_mu(j),
-                    beta_sd(j),
+                    0.00,
+                    sqrt(sigma2_beta),
                     TRUE);
     
    /*Decision*/

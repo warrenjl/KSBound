@@ -6,11 +6,10 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double alpha_update(arma::vec v,
+double alpha_update(int m_max,
+                    arma::vec v,
                     double alpha_a,
                     double alpha_b){
-
-int m_max = v.size();
 
 double alpha_a_update = alpha_a +
                         m_max;

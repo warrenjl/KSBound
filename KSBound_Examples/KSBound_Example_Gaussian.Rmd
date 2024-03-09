@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 * Setting the reproducibility seed and initializing packages for data simulation: 
 ```{r}
-set.seed(3354)
+set.seed(3355)
 
 library(KSBound)  
 library(mnormt)  #Multivariate normal distribution
@@ -45,6 +45,8 @@ offset<-rep(0,
 beta_true<-c(0.75,
              -0.35)
 
+sigma2_epsilon_true<-0.25
+
 #Design Matrix
 x<-matrix(1,
           nrow = nrow(W),
@@ -68,13 +70,14 @@ image.plot(matrix(c(phi),
                   ncol = n.space, 
                   byrow=TRUE))
 
-log_lambda<-x%*%beta_true + 
-            phi
+mu<-x%*%beta_true + 
+    phi
 
-hist(log_lambda)
+hist(mu)
 
-y<-rpois(n = nrow(W),
-         lambda = exp(log_lambda)) 
+y<-rnorm(n = nrow(W),
+         mean = mu,
+         sd = sqrt(sigma2_epsilon_true))
 ```
 
 [2] Fit KSBound to estimate spatial boundaries:
@@ -84,12 +87,8 @@ results<-KSBound(mcmc_samples = 25000,
                  m_max = 2000,
                  spatial_neighbors = W,
                  y = y,
-                 offset = offset, 
                  x = x, 
-                 mhvar_beta = rep(0.10,
-                                  times = ncol(x)),
-                 mhvar_theta = rep(0.01, 
-                                   times = 2000),
+                 likelihood_indicator = 2,
                  alpha_a_prior = 10.00,
                  alpha_b_prior = 10.00,
                  keep_all_ind = 0.00)
@@ -111,6 +110,13 @@ plot(results$beta[2, 5001:25000],
      ylab="beta",
      xlab="Sample")
 abline(h=beta_true[2],
+       col="red",
+       lwd=2)  #True value
+plot(results$sigma2_epsilon[5001:25000], 
+     type="l",
+     ylab="sigma2_epsilon",
+     xlab="Sample")
+abline(h=sigma2_epsilon_true,
        col="red",
        lwd=2)  #True value
 plot(rowMeans(results$theta_g[,5001:25000]), 
