@@ -146,8 +146,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // neg_two_loglike_update
-double neg_two_loglike_update(arma::vec y, arma::mat x, int n, arma::vec off_set, int likelihood_indicator, int r, double sigma2_epsilon, arma::vec beta, arma::vec theta, arma::vec g);
-RcppExport SEXP _KSBound_neg_two_loglike_update(SEXP ySEXP, SEXP xSEXP, SEXP nSEXP, SEXP off_setSEXP, SEXP likelihood_indicatorSEXP, SEXP rSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP thetaSEXP, SEXP gSEXP) {
+double neg_two_loglike_update(arma::vec y, arma::mat x, int n, arma::vec off_set, arma::vec tri_als, int likelihood_indicator, int r, double sigma2_epsilon, arma::vec beta, arma::vec theta, arma::vec g);
+RcppExport SEXP _KSBound_neg_two_loglike_update(SEXP ySEXP, SEXP xSEXP, SEXP nSEXP, SEXP off_setSEXP, SEXP tri_alsSEXP, SEXP likelihood_indicatorSEXP, SEXP rSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP thetaSEXP, SEXP gSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -155,13 +155,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type off_set(off_setSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type tri_als(tri_alsSEXP);
     Rcpp::traits::input_parameter< int >::type likelihood_indicator(likelihood_indicatorSEXP);
     Rcpp::traits::input_parameter< int >::type r(rSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_epsilon(sigma2_epsilonSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type g(gSEXP);
-    rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update(y, x, n, off_set, likelihood_indicator, r, sigma2_epsilon, beta, theta, g));
+    rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update(y, x, n, off_set, tri_als, likelihood_indicator, r, sigma2_epsilon, beta, theta, g));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -328,7 +329,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_KSBound_beta_update", (DL_FUNC) &_KSBound_beta_update, 11},
     {"_KSBound_g_other_update", (DL_FUNC) &_KSBound_g_other_update, 11},
     {"_KSBound_g_update", (DL_FUNC) &_KSBound_g_update, 9},
-    {"_KSBound_neg_two_loglike_update", (DL_FUNC) &_KSBound_neg_two_loglike_update, 10},
+    {"_KSBound_neg_two_loglike_update", (DL_FUNC) &_KSBound_neg_two_loglike_update, 11},
     {"_KSBound_r_update", (DL_FUNC) &_KSBound_r_update, 9},
     {"_KSBound_rcpp_pgdraw", (DL_FUNC) &_KSBound_rcpp_pgdraw, 2},
     {"_KSBound_sigma2_epsilon_update", (DL_FUNC) &_KSBound_sigma2_epsilon_update, 9},

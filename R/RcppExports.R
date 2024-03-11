@@ -25,8 +25,8 @@ g_update <- function(y, x, n, off_set, beta, theta, c, u, p) {
     .Call(`_KSBound_g_update`, y, x, n, off_set, beta, theta, c, u, p)
 }
 
-neg_two_loglike_update <- function(y, x, n, off_set, likelihood_indicator, r, sigma2_epsilon, beta, theta, g) {
-    .Call(`_KSBound_neg_two_loglike_update`, y, x, n, off_set, likelihood_indicator, r, sigma2_epsilon, beta, theta, g)
+neg_two_loglike_update <- function(y, x, n, off_set, tri_als, likelihood_indicator, r, sigma2_epsilon, beta, theta, g) {
+    .Call(`_KSBound_neg_two_loglike_update`, y, x, n, off_set, tri_als, likelihood_indicator, r, sigma2_epsilon, beta, theta, g)
 }
 
 r_update <- function(y, x, n, off_set, beta, theta, g, r_a, r_b) {

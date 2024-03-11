@@ -6,12 +6,14 @@ library(KSBound)
 m_max<-2000
 mcmc_samples<-600000
 
+#Poisson
 KSBound_results<-KSBound(mcmc_samples = mcmc_samples,
                          m_max = m_max,
                          spatial_neighbors = W_diag_1,
                          y = y,
                          offset = offset, 
                          x = x, 
+                         likelihood_indicator = 0,
                          mhvar_beta = rep(0.05, 
                                           times = ncol(x)),
                          mhvar_theta = rep(0.05, 
@@ -20,5 +22,19 @@ KSBound_results<-KSBound(mcmc_samples = mcmc_samples,
                          alpha_b_prior = 10.00,
                          keep_all_ind = 0.00)
 
-
+#NB
+KSBound_results<-KSBound(mcmc_samples = mcmc_samples,
+                         m_max = m_max,
+                         spatial_neighbors = W_diag_1,
+                         y = y,
+                         offset = offset, 
+                         x = x, 
+                         likelihood_indicator = 3,
+                         mhvar_beta = rep(0.05, 
+                                          times = ncol(x)),
+                         mhvar_theta = rep(0.05, 
+                                           times = m_max),
+                         alpha_a_prior = 10.00,
+                         alpha_b_prior = 10.00,
+                         keep_all_ind = 0.00)
 
